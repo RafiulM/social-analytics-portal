@@ -1,117 +1,87 @@
-# Project Requirements Document: codeguide-starter
-
----
-
 ## 1. Project Overview
 
-The **codeguide-starter** project is a boilerplate web application that provides a ready-made foundation for any web project requiring secure user authentication and a post-login dashboard. It sets up the common building blocks—sign-up and sign-in pages, API routes to handle registration and login, and a simple dashboard interface driven by static data. By delivering this skeleton, it accelerates development time and ensures best practices are in place from day one.
+The Social Analytics Portal is a web application that gives marketing teams and social media managers a single place to sign in, view, and analyze their key social media metrics. Instead of logging into multiple platforms and piecing together spreadsheets, users will see consolidated charts, tables, and performance indicators for their accounts—all behind a secure login.
 
-This starter kit is being built to solve the friction developers face when setting up repeated common tasks: credential handling, session management, page routing, and theming. Key objectives include: 1) delivering a fully working authentication flow (registration & login), 2) providing a gated dashboard area upon successful login, 3) establishing a clear, maintainable project structure using Next.js and TypeScript, and 4) demonstrating a clean theming approach with global and section-specific CSS. Success is measured by having an end-to-end login journey in under 200 lines of code and zero runtime type errors.
-
----
+We’re building this portal to streamline how small to mid-sized businesses track likes, shares, follower growth, and engagement rate across their social channels. Success means users can sign up quickly, authenticate safely, and land on a dashboard that loads in under two seconds, where they can filter data by date range, platform, or campaign and immediately spot trends or anomalies.
 
 ## 2. In-Scope vs. Out-of-Scope
 
-### In-Scope (Version 1)
-- User registration (sign-up) form with validation
-- User login (sign-in) form with validation
-- Next.js API routes under `/api/auth/route.ts` handling:
-  - Credential validation
-  - Password hashing (e.g., bcrypt)
-  - Session creation or JWT issuance
-- Protected dashboard pages under `/dashboard`:
-  - `layout.tsx` wrapping dashboard content
-  - `page.tsx` rendering static data from `data.json`
-- Global application layout in `/app/layout.tsx`
-- Basic styling via `globals.css` and `dashboard/theme.css`
-- TypeScript strict mode enabled
+**In-Scope (First Version)**
+- User sign-up and sign-in pages with secure password handling
+- Next.js API routes for authentication (sign-up, sign-in, session check)
+- A protected dashboard area showing: summary cards, line/bar charts, and data tables
+- Data source from a local JSON file (`dashboard/data.json`) with a clear contract for later extension
+- Global and dashboard-specific layouts using CSS for theming and responsive design
+- Error and loading states for network requests
 
-### Out-of-Scope (Later Phases)
-- Integration with a real database (PostgreSQL, MongoDB, etc.)
-- Advanced authentication flows (password reset, email verification, MFA)
-- Role-based access control (RBAC)
-- Multi-tenant or white-label theming
-- Unit, integration, or end-to-end testing suites
-- CI/CD pipeline and production deployment scripts
-
----
+**Out-of-Scope (Later Phases)**
+- Real integration with external social media APIs (Facebook, Twitter, Instagram)
+- Advanced analytics (predictive metrics, sentiment analysis)
+- Data export (CSV/PDF) or scheduling of reports
+- Multi-tenant billing or payment gateway
+- Mobile-specific native app (React Native or Swift/Kotlin)
+- Multi-language localization or internationalization
 
 ## 3. User Flow
 
-A new visitor lands on the root URL and sees a welcome page with options to **Sign Up** or **Sign In**. If they choose Sign Up, they fill in their email, password, and hit “Create Account.” The form submits to `/api/auth/route.ts`, which hashes the password, creates a new user session or token, and redirects them to the dashboard. If any input is invalid, an inline error message explains the issue (e.g., “Password too short”).
+A new user arrives at the portal’s landing page and clicks **Sign Up**. They fill in name, email, and password. When they submit, the frontend calls `/api/auth/signup`. After the server verifies and persists the new account, the user is redirected to the **Sign In** page. They enter their credentials, the client calls `/api/auth/signin`, and on success, the user’s session cookie is set and they land on the **Dashboard**.
 
-Once authenticated, the user is taken to the `/dashboard` route. Here they see a sidebar or header defined by `dashboard/layout.tsx`, and the main panel pulls in static data from `data.json`. They can log out (if that control is present), but otherwise their entire session is managed by server-side cookies or tokens. Returning users go directly to Sign In, submit credentials, and upon success they land back on `/dashboard`. Any unauthorized access to `/dashboard` redirects back to Sign In.
-
----
+On the Dashboard, the left sidebar shows navigation links (Overview, Filters, Settings). The main area greets the user by name and displays three summary cards (Total Followers, Engagement Rate, Posts This Month) followed by a line chart of daily engagement. From here, the user can open a date picker, select a range, and click **Apply** to update all visuals. They can also sign out via a profile dropdown at the top right, which clears the session and brings them back to **Sign In**.
 
 ## 4. Core Features
 
-- **Sign-Up Page (`/app/sign-up/page.tsx`)**: Form fields for email & password, client-side validation, POST to `/api/auth`.
-- **Sign-In Page (`/app/sign-in/page.tsx`)**: Form fields for email & password, client-side validation, POST to `/api/auth`.
-- **Authentication API (`/app/api/auth/route.ts`)**: Handles both registration and login based on HTTP method, integrates password hashing (bcrypt) and session or JWT logic.
-- **Global Layout (`/app/layout.tsx` + `globals.css`)**: Shared header, footer, and CSS resets across all pages.
-- **Dashboard Layout (`/app/dashboard/layout.tsx` + `dashboard/theme.css`)**: Sidebar or top nav for authenticated flows, section-specific styling.
-- **Dashboard Page (`/app/dashboard/page.tsx`)**: Reads `data.json`, renders it as cards or tables.
-- **Static Data Source (`/app/dashboard/data.json`)**: Example dataset to demo dynamic rendering.
-- **TypeScript Configuration**: `tsconfig.json` with strict mode and path aliases (if any).
-
----
+- **Authentication Module**  
+  • Sign-Up (`/sign-up/page.tsx`, `/api/auth/signup`)  
+  • Sign-In (`/sign-in/page.tsx`, `/api/auth/signin`)  
+  • Session management via secure HTTP-Only cookies or JWTs
+- **Protected Dashboard**  
+  • Layout file (`dashboard/layout.tsx`) with sidebar and top nav  
+  • Data-driven page (`dashboard/page.tsx`) rendering charts and tables
+- **Data API Layer**  
+  • Serverless API routes for fetching analytics from `dashboard/data.json`  
+  • Clear request/response schema (dateRange, metricType, result array)
+- **Data Visualization**  
+  • Line and bar charts using a library (e.g., Chart.js or Recharts)  
+  • Data tables with sorting and pagination
+- **Theming & Styling**  
+  • Global CSS (`globals.css`, `theme.css`)  
+  • Responsive breakpoints for desktop and tablet views
+- **Error & Loading States**  
+  • Spinners or skeleton loaders during API calls  
+  • User-friendly error messages when fetches fail
 
 ## 5. Tech Stack & Tools
 
-- **Framework**: Next.js (App Router) for file-based routing, SSR/SSG, and API routes.
-- **Language**: TypeScript for type safety.
-- **UI Library**: React 18 for component-based UI.
-- **Styling**: Plain CSS via `globals.css` (global reset) and `theme.css` (sectional styling). Can easily migrate to CSS Modules or Tailwind in the future.
-- **Backend**: Node.js runtime provided by Next.js API routes.
-- **Password Hashing**: bcrypt (npm package).
-- **Session/JWT**: NextAuth.js or custom JWT logic (to be decided in implementation).
-- **IDE & Dev Tools**: VS Code with ESLint, Prettier extensions. Optionally, Cursor.ai for AI-assisted coding.
-
----
+- **Frontend**: Next.js 13 (App Router), React, TypeScript  
+- **Backend**: Next.js API Routes (Node.js serverless functions)  
+- **Authentication**: Custom JWT + bcrypt or NextAuth.js with a custom credentials provider
+- **Styling**: CSS Modules or plain CSS files (`globals.css`, `theme.css`)  
+- **Charts**: Chart.js or Recharts for data visualizations  
+- **Data Fetching**: SWR or React Query for client-side caching and revalidation
+- **IDE & Plugins**: VS Code with Cursor and Windsurf for AI-powered code completions
 
 ## 6. Non-Functional Requirements
 
-- **Performance**: Initial page load under 200 ms on a standard broadband connection. API responses under 300 ms.
-- **Security**:
-  - HTTPS only in production.
-  - Proper CORS, CSRF protection for API routes.
-  - Secure password storage (bcrypt with salt).
-  - No credentials or secrets checked into version control.
-- **Scalability**: Structure must support adding database integration, caching layers, and advanced auth flows without rewiring core app.
-- **Usability**: Forms should give real-time feedback on invalid input. Layout must be responsive (mobile > 320 px).
-- **Maintainability**: Code must adhere to TypeScript strict mode. Linting & formatting enforced by ESLint/Prettier.
-
----
+- **Performance**: Dashboard initial load ≤ 2 seconds on a 10 Mbps connection; API responses ≤ 200 ms for local JSON data
+- **Security**: OWASP Top 10 compliance, hashed passwords (bcrypt), CSRF/XSS protections, HTTP-Only cookies or secure JWTs
+- **Usability**: WCAG AA accessible color contrast; keyboard-navigable forms and charts
+- **Reliability**: 99.9% uptime for API routes; retries on transient failures
+- **Scalability**: Ability to swap local JSON for real database or external APIs without UI changes
 
 ## 7. Constraints & Assumptions
 
-- **No Database**: Dashboard uses only `data.json`; real database integration is deferred.
-- **Node Version**: Requires Node.js >= 14.
-- **Next.js Version**: Built on Next.js 13+ App Router.
-- **Authentication**: Assumes availability of bcrypt or NextAuth.js at implementation time.
-- **Hosting**: Targets serverless or Node.js-capable hosting (e.g., Vercel, Netlify).
-- **Browser Support**: Modern evergreen browsers; no IE11 support required.
-
----
+- The first release uses a local JSON file as a stand-in for real data; we assume this contract will mirror future API responses
+- We assume Next.js 13+ environment on Vercel or similar serverless platform supporting Node.js 18+
+- Social media API keys and rate limits are not in scope now; planned for v2
+- No AI/ML models or external services (like GPT-4o) are part of the initial implementation
 
 ## 8. Known Issues & Potential Pitfalls
 
-- **Static Data Limitation**: `data.json` is only for demo. A real API or database will be needed to avoid stale data.
-  *Mitigation*: Define a clear interface for data fetching so swapping to a live endpoint is trivial.
-
-- **Global CSS Conflicts**: Using global styles can lead to unintended overrides.
-  *Mitigation*: Plan to migrate to CSS Modules or utility-first CSS in Phase 2.
-
-- **API Route Ambiguity**: Single `/api/auth/route.ts` handling both sign-up and sign-in could get complex.
-  *Mitigation*: Clearly branch on HTTP method (`POST /register` vs. `POST /login`) or split into separate files.
-
-- **Lack of Testing**: No test suite means regressions can slip in.
-  *Mitigation*: Build a minimal Jest + React Testing Library setup in an early iteration.
-
-- **Error Handling Gaps**: Client and server must handle edge cases (network failures, malformed input).
-  *Mitigation*: Define a standard error response schema and show user-friendly messages.
+- **Cold Starts**: Serverless functions may add latency on first call—mitigate by keeping endpoints warm or moving critical routes to edge functions
+- **Chart Performance**: Very large data sets can slow down rendering—introduce pagination or data sampling in later versions
+- **CORS & Security Headers**: Ensure API routes set proper CORS and security headers, or bundle everything under the same domain
+- **Rate Limiting**: When real APIs are introduced, implement client-side throttling or server-side caching to avoid hitting third-party limits
+- **Session Expiry Confusion**: If JWTs expire without clear UX, users may see silent failures—add explicit “Session expired” dialogs and redirect to sign-in
 
 ---
-
-This PRD should serve as the single source of truth for the AI model or any developer generating the next set of technical documents: Tech Stack Doc, Frontend Guidelines, Backend Structure, App Flow, File Structure, and IDE Rules. It contains all functional and non-functional requirements with no ambiguity, enabling seamless downstream development.
+*This document captures all the requirements and boundaries for the first version of the Social Analytics Portal. Use it as the foundation for detailed technical designs and implementation guidelines.*

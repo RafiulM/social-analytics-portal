@@ -1,90 +1,138 @@
 # Tech Stack Document
 
-This document explains the key technologies chosen for the **codeguide-starter** project. It’s written in everyday language so anyone—technical or not—can understand why each tool was picked and how it supports the application.
+This document explains the main technologies and tools used to build the Social Analytics Portal. It’s written in everyday language so that anyone—technical or non-technical—can understand why we chose each technology and how it helps the project succeed.
 
 ## 1. Frontend Technologies
-The frontend is everything the user sees and interacts with. For this project, we’ve used:
 
-- **Next.js (App Router)**
-  - A React framework that makes page routing, server-side rendering, and API routes very simple.
-  - Enhances user experience by pre-rendering pages on the server or at build time, leading to faster initial load.
-- **React 18**
-  - The underlying library for building user interfaces with reusable components.
-  - Provides a smooth, interactive experience thanks to its virtual DOM and modern hooks.
+These are the tools that create the parts of the application you see and interact with in your web browser.
+
+- **Next.js (v13, App Router)**
+  - Provides a clear, folder-based structure for pages (`/app/dashboard`, `/app/sign-in`, etc.).
+  - Automatically handles routing so links and URLs map directly to files.
+  - Offers both server-side rendering (fast first load) and client-side updates (smooth interactions).
+
+- **React**
+  - Powers reusable pieces of the interface (buttons, forms, charts).
+  - Lets us break the UI into small, easy-to-manage components.
+
 - **TypeScript**
-  - A superset of JavaScript that adds types (labels for data).
-  - Helps catch errors early during development and makes the code easier to maintain.
-- **CSS (globals.css & theme.css)**
-  - **globals.css** applies base styles (fonts, colors, resets) across the entire app.
-  - **dashboard/theme.css** defines the look and feel specific to the dashboard area.
-  - This separation keeps styles organized and avoids accidental style conflicts.
+  - Adds “type safety,” catching mistakes early in development.
+  - Makes code easier to understand and maintain over time.
 
-By combining these tools, we have a clear structure (Next.js folders for pages and layouts), safer code (TypeScript), and flexible styling with vanilla CSS.
+- **Styling with CSS**
+  - Global styles in `globals.css` for consistent fonts, colors, and spacing.
+  - Theme variables in `theme.css` so changing colors or fonts is quick and predictable.
+  - Responsive breakpoints ensure the portal looks good on desktop and tablet.
+
+- **Data Visualization**
+  - **Chart.js** or **Recharts** for drawing line charts and bar charts.
+  - These libraries turn raw numbers into interactive visuals, helping users spot trends quickly.
+
+- **Client-Side Data Fetching**
+  - **SWR** or **React Query** for fetching, caching, and updating data without full page reloads.
+  - Provides built-in loading states and automatic data refresh.
+
+By combining these technologies, the frontend is fast to load, easy to navigate, and straightforward to develop and maintain.
 
 ## 2. Backend Technologies
-The backend handles data, user accounts, and the logic behind the scenes. Our choices here are:
+
+These are the tools that run behind the scenes on the server, handling data storage, authentication, and any logic you don’t see directly in the browser.
 
 - **Next.js API Routes**
-  - Allows us to write server-side code (`route.ts` files) alongside our frontend in the same project.
-  - Runs on Node.js, so we can handle requests like sign-up, sign-in, and data fetching in one place.
-- **Node.js Runtime**
-  - The JavaScript environment on the server that executes our API routes.
-- **bcrypt** (npm package)
-  - A library for hashing passwords securely before storing them.
-  - Ensures that even if someone got access to our data, raw passwords aren’t visible.
-- **(Optional) NextAuth.js or JWT**
-  - While this starter kit shows a custom authentication flow, it can easily integrate services like NextAuth.js for email-based login or JWT (JSON Web Tokens) for stateless sessions.
+  - Serverless functions placed under `/app/api` (for example, `/app/api/auth/route.ts`).
+  - Handle sign-up, sign-in, password reset, and data requests.
+  - Automatically scale on platforms like Vercel—no separate server to manage.
 
-These components work together to receive user credentials, verify or store them securely, manage sessions or tokens, and deliver protected data back to the frontend.
+- **Node.js & TypeScript**
+  - The API routes run on Node.js, using TypeScript for consistency with the frontend.
+
+- **Authentication & User Management**
+  - **Password Hashing** with **bcrypt** to store passwords safely.
+  - **JSON Web Tokens (JWTs)** or **HTTP-only cookies** to keep users logged in securely.
+  - A custom or NextAuth.js credentials provider to validate credentials and manage sessions.
+
+- **Data Storage**
+  - **Local JSON file** (`dashboard/data.json`) holds initial analytics data in version 1.
+  - Designed so that in future we can swap this out for a real database (e.g., PostgreSQL with Prisma) without changing the UI.
+
+- **Email Service Integration**
+  - For password reset emails, we plan to use a service like **SendGrid** or **Amazon SES**.
+  - Keeps password-reset workflows reliable and scalable.
+
+Together, these backend pieces keep user data safe, make your login experience smooth, and deliver analytics data on demand.
 
 ## 3. Infrastructure and Deployment
-Infrastructure covers where and how we host the app, as well as how changes get delivered:
 
-- **Git & GitHub**
-  - Version control system (Git) and remote hosting (GitHub) keep track of all code changes and allow team collaboration.
-- **Vercel (or Netlify)**
-  - A popular hosting service optimized for Next.js, with one-click deployments and global content delivery.
-  - Automatically rebuilds and deploys the site whenever code is pushed to the main branch.
-- **GitHub Actions (CI/CD)**
-  - Automates tasks like linting (ESLint), formatting (Prettier), and running any tests you add.
-  - Ensures that only clean, tested code goes live.
+These choices define where and how the application lives online, how we manage changes, and how we ensure reliability.
 
-Together, these tools provide a reliable, scalable setup where every code change is tested and deployed quickly, with minimal manual work.
+- **Version Control: Git & GitHub**
+  - All code is stored in a Git repository on GitHub.
+  - Branching, pull requests, and code reviews help maintain code quality.
+
+- **CI/CD: GitHub Actions**
+  - Automated tests and checks run on every push.
+  - Successful merges to the `main` branch trigger deployment.
+
+- **Hosting: Vercel (or similar)**
+  - Instantly deploys Next.js applications with zero-config.
+  - Scales serverless functions automatically to handle spikes in traffic.
+  - Manages SSL certificates and global content delivery without extra setup.
+
+- **Environment Management**
+  - Environment variables for secrets (API keys, database URLs) are stored securely in Vercel settings.
+  - Keeps sensitive information out of the codebase.
+
+This infrastructure setup means less time spent managing servers and more time building features—and ensures the portal stays up and running smoothly.
 
 ## 4. Third-Party Integrations
-While this starter kit is minimal by design, it already includes or can easily add:
 
-- **bcrypt**
-  - For secure password hashing (included as an npm dependency).
-- **NextAuth.js** (optional)
-  - A full-featured authentication library supporting email/password, OAuth, and more.
-- **Sentry or LogRocket** (optional)
-  - For real-time error tracking and performance monitoring in production.
+While the core portal runs on our own code, several external tools and services extend its functionality.
 
-These integrations help extend the app’s capabilities without building every feature from scratch.
+- **Chart.js / Recharts**
+  - Trusted libraries for drawing attractive, interactive charts.
+
+- **SWR / React Query**
+  - Libraries that simplify and speed up data fetching in React apps.
+
+- **SendGrid / Amazon SES (Email Service)**
+  - Sends password reset links and other transactional emails reliably.
+
+- **Future Social Media APIs**
+  - In later versions, we will connect to Facebook, Twitter, and Instagram APIs to pull real analytics data.
+
+- **(Optional) Google Analytics**
+  - Can be added to track how users navigate the portal and which features they use most.
+
+These integrations minimize custom work and leverage industry-proven services.
 
 ## 5. Security and Performance Considerations
-We’ve baked in several measures to keep users safe and the app running smoothly:
 
-Security:
-- Passwords are never stored in plain text—bcrypt hashes them with a random salt.
-- API routes can implement CSRF protection and input validation to block malicious requests.
-- Session tokens or cookies are marked secure and HttpOnly to prevent theft via JavaScript.
+Security Measures:
+- **Password Hashing** (bcrypt) ensures raw passwords are never stored.
+- **JWTs or HTTP-only Cookies** prevent client-side scripts from stealing session tokens.
+- **CSRF & XSS Protections** using built-in Next.js headers and careful data handling.
+- Compliance with **OWASP Top 10** best practices.
 
-Performance:
-- Server-side rendering (SSR) and static site generation (SSG) in Next.js deliver pages faster.
-- Code splitting and lazy-loaded components ensure users only download what they need.
-- Global CSS and theme files are small and cached by the browser for quick repeat visits.
+Performance Optimizations:
+- **Server-Side Rendering (SSR)** for fast first-load times (< 2 seconds).
+- **Client-Side Caching** with SWR/React Query to avoid unnecessary network calls.
+- **Skeleton Loaders** and spinners for a polished loading experience.
+- **Code Splitting & Tree Shaking** thanks to Next.js—and only the code you need is sent to the browser.
 
-These strategies work together to give users a fast, secure experience every time.
+By combining these measures, we keep user data safe and ensure the portal feels snappy and reliable.
 
 ## 6. Conclusion and Overall Tech Stack Summary
-In building **codeguide-starter**, we chose technologies that:
 
-- Align with modern web standards (Next.js, React, TypeScript).
-- Provide a clear, file-based project structure for rapid onboarding.
-- Offer built-in support for server-side rendering, API routes, and static assets.
-- Emphasize security through password hashing, session management, and safe defaults.
-- Enable easy scaling and future enhancements via modular code and optional integrations.
+We chose a modern, integrated stack built around **Next.js**, **React**, and **TypeScript** because it:
 
-This stack strikes a balance between simplicity for newcomers and flexibility for experienced teams. It accelerates development of a secure authentication flow and a polished dashboard, while leaving room to plug in databases, test suites, and advanced features as the project grows.
+- Delivers fast, friendly user experiences with minimal configuration.
+- Scales automatically via serverless functions, reducing infrastructure overhead.
+- Keeps code maintainable and consistent across frontend and backend.
+- Allows us to start with simple local data storage and easily plug in real databases or external APIs later.
+
+Unique Highlights:
+- File-based routing maps your folder structure directly to the site’s URLs.
+- A unified codebase where UI components and API endpoints live side-by-side.
+- Flexible theming via global and per-page CSS, making design tweaks straightforward.
+
+Overall, this tech stack balances simplicity, speed, and security—giving marketing teams a dependable place to sign in, monitor social media performance, and make data-driven decisions every day.
