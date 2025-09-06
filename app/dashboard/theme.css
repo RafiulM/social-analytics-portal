@@ -1,5 +1,6 @@
 body {
-    @apply overscroll-none bg-transparent;
+    overscroll-behavior: none;
+    background-color: transparent;
   }
   
   :root {

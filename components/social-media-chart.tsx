@@ -68,25 +68,28 @@ export function SocialMediaChart({ data }: SocialMediaChartProps) {
   const chartConfig = {
     engagement_rate: {
       label: "Engagement Rate",
-      color: "hsl(142, 76%, 36%)", // Green 600
-      format: (value: number) => `${value}%`
+      color: "hsl(142, 76%, 36%)" // Green 600
     },
     likes: {
       label: "Likes",
-      color: "hsl(217, 91%, 60%)", // Blue 500
-      format: (value: number) => value.toLocaleString()
+      color: "hsl(217, 91%, 60%)" // Blue 500
     },
     shares: {
       label: "Shares",
-      color: "hsl(270, 95%, 75%)", // Purple 400
-      format: (value: number) => value.toLocaleString()
+      color: "hsl(270, 95%, 75%)" // Purple 400
     },
     comments: {
       label: "Comments",
-      color: "hsl(38, 92%, 50%)", // Amber 500
-      format: (value: number) => value.toLocaleString()
+      color: "hsl(38, 92%, 50%)" // Amber 500
     }
   } satisfies ChartConfig
+
+  const formatters = {
+    engagement_rate: (value: number) => `${value}%`,
+    likes: (value: number) => value.toLocaleString(),
+    shares: (value: number) => value.toLocaleString(),
+    comments: (value: number) => value.toLocaleString()
+  }
 
   const metricConfig = chartConfig[metric as keyof typeof chartConfig]
 
@@ -209,7 +212,7 @@ export function SocialMediaChart({ data }: SocialMediaChartProps) {
                   }}
                   indicator="dot"
                   formatter={(value) => [
-                    metricConfig.format(value as number),
+                    formatters[metric as keyof typeof formatters](value as number),
                     metricConfig.label
                   ]}
                 />

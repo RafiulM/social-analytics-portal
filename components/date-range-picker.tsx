@@ -3,6 +3,7 @@
 import * as React from "react"
 import { CalendarIcon } from "@radix-ui/react-icons"
 import { format } from "date-fns"
+import { DateRange } from "react-day-picker"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -31,9 +32,12 @@ export function DateRangePicker({
 }: DateRangePickerProps) {
   const [isOpen, setIsOpen] = React.useState(false)
 
-  const handleSelect = (range: { from: Date | undefined; to: Date | undefined } | undefined) => {
+  const handleSelect = (range: DateRange | undefined) => {
     if (range) {
-      onDateRangeChange(range)
+      onDateRangeChange({
+        from: range.from,
+        to: range.to
+      })
     }
   }
 
