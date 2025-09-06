@@ -1,0 +1,152 @@
+[
+  {
+    "date": "2025-01-01",
+    "followers": 12500,
+    "engagement_rate": 4.2,
+    "posts": 3,
+    "likes": 525,
+    "shares": 89,
+    "comments": 42,
+    "reach": 125000
+  },
+  {
+    "date": "2025-01-02",
+    "followers": 12650,
+    "engagement_rate": 3.8,
+    "posts": 2,
+    "likes": 480,
+    "shares": 75,
+    "comments": 38,
+    "reach": 118000
+  },
+  {
+    "date": "2025-01-03",
+    "followers": 12800,
+    "engagement_rate": 5.1,
+    "posts": 4,
+    "likes": 652,
+    "shares": 112,
+    "comments": 51,
+    "reach": 142000
+  },
+  {
+    "date": "2025-01-04",
+    "followers": 12920,
+    "engagement_rate": 4.7,
+    "posts": 3,
+    "likes": 607,
+    "shares": 98,
+    "comments": 45,
+    "reach": 135000
+  },
+  {
+    "date": "2025-01-05",
+    "followers": 13050,
+    "engagement_rate": 6.2,
+    "posts": 5,
+    "likes": 809,
+    "shares": 145,
+    "comments": 62,
+    "reach": 168000
+  },
+  {
+    "date": "2025-01-06",
+    "followers": 13200,
+    "engagement_rate": 3.9,
+    "posts": 2,
+    "likes": 515,
+    "shares": 82,
+    "comments": 39,
+    "reach": 122000
+  },
+  {
+    "date": "2025-01-07",
+    "followers": 13350,
+    "engagement_rate": 4.8,
+    "posts": 3,
+    "likes": 641,
+    "shares": 103,
+    "comments": 48,
+    "reach": 138000
+  },
+  {
+    "date": "2025-01-08",
+    "followers": 13500,
+    "engagement_rate": 5.5,
+    "posts": 4,
+    "likes": 743,
+    "shares": 128,
+    "comments": 55,
+    "reach": 155000
+  },
+  {
+    "date": "2025-01-09",
+    "followers": 13680,
+    "engagement_rate": 4.1,
+    "posts": 2,
+    "likes": 561,
+    "shares": 92,
+    "comments": 41,
+    "reach": 126000
+  },
+  {
+    "date": "2025-01-10",
+    "followers": 13820,
+    "engagement_rate": 5.9,
+    "posts": 4,
+    "likes": 815,
+    "shares": 138,
+    "comments": 59,
+    "reach": 162000
+  },
+  {
+    "date": "2025-01-11",
+    "followers": 13950,
+    "engagement_rate": 4.3,
+    "posts": 3,
+    "likes": 600,
+    "shares": 97,
+    "comments": 43,
+    "reach": 132000
+  },
+  {
+    "date": "2025-01-12",
+    "followers": 14100,
+    "engagement_rate": 6.8,
+    "posts": 5,
+    "likes": 959,
+    "shares": 163,
+    "comments": 68,
+    "reach": 189000
+  },
+  {
+    "date": "2025-01-13",
+    "followers": 14280,
+    "engagement_rate": 3.7,
+    "posts": 2,
+    "likes": 528,
+    "shares": 78,
+    "comments": 37,
+    "reach": 119000
+  },
+  {
+    "date": "2025-01-14",
+    "followers": 14420,
+    "engagement_rate": 5.2,
+    "posts": 4,
+    "likes": 750,
+    "shares": 125,
+    "comments": 52,
+    "reach": 152000
+  },
+  {
+    "date": "2025-01-15",
+    "followers": 14550,
+    "engagement_rate": 4.6,
+    "posts": 3,
+    "likes": 669,
+    "shares": 108,
+    "comments": 46,
+    "reach": 139000
+  }
+]
